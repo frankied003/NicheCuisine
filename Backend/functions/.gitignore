@@ -1,0 +1,4 @@
+node_modules/
+
+# Service Credential File
+service-account-credentials.json
