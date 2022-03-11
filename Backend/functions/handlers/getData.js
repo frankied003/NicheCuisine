@@ -1,3 +1,4 @@
+const { db, firebase } = require('../utilities/databaseAuth');
 
 exports.getMeals = async (req, res) => {
 
