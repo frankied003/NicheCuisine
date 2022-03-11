@@ -1,4 +1,3 @@
-const { db } = require('../utilities/databaseAuth');
 
 exports.getMeals = async (req, res) => {
 
