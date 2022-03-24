@@ -13,7 +13,7 @@ export default function ProfileScreen({ navigation }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#F6F4F1',
         alignItems: 'center',
         justifyContent: 'center',
     },
