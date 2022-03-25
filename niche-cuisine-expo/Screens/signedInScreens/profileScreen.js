@@ -1,11 +1,17 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Button, StyleSheet, Text, View } from 'react-native';
+import { signOut, getAuth } from 'firebase/auth';
+import { useAuthentication } from '../../Utils/Hooks/useAuthentication';
 
 // Components
 
 export default function ProfileScreen({ navigation }) {
+
+    const auth = getAuth();
+
     return (
         <View style={styles.container}>
             <Text>Profile Screen</Text>
+            <Button title="Sign Out" onPress={() => signOut(auth)} />
         </View>
     );
 }
