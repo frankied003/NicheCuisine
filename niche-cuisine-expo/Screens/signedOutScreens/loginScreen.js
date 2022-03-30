@@ -40,7 +40,6 @@ export default function LoginScreen({ navigation }) {
                 onChangeText={(text) => setpassword(text)}
                 secureTextEntry={true}
             />
-            {/* <Button title="Sign in" style={styles.control} onPress={() => login()} /> */}
             <TouchableOpacity style={styles.control} onPress={() => login()}><Text style={styles.fontSize}>Sign in</Text></TouchableOpacity>
             {error
                 ? <Text>{error}</Text>
