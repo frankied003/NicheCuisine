@@ -7,7 +7,14 @@ exports.getMeals = async (req, res) => {
         const mealsSnapshot = await db.collection('meals').get();
         mealsSnapshot.forEach(meal => {
             meals.push({
-                name: meal.data().name,
+                name: meal.data()?.name,
+                userId: meal.data()?.userId,
+                mealName: meal.data()?.mealName,
+                time: meal.data()?.time,
+                location: meal.data()?.location,
+                price: meal.data()?.price,
+                searchTags: meal.data()?.searchTags,
+                subMeals: meal.data()?.subMeals,
                 id: meal.id
             })
         });
