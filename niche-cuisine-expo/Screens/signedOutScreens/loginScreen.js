@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { StyleSheet, Text, SafeAreaView, View, Button, TextInput } from 'react-native';
+import { StyleSheet, Text, SafeAreaView, View, TouchableOpacity, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
@@ -29,18 +29,18 @@ export default function LoginScreen({ navigation }) {
         <SafeAreaView style={styles.container}>
             <TextInput
                 placeholder='Email'
-                style={styles.control}
+                style={styles.font}
                 value={email}
                 onChangeText={(text) => setemail(text)}
             />
             <TextInput
                 placeholder='Password'
-                style={styles.control}
+                style={styles.font}
                 value={password}
                 onChangeText={(text) => setpassword(text)}
                 secureTextEntry={true}
             />
-            <Button title="Sign in" style={styles.control} onPress={() => login()} />
+            <TouchableOpacity style={styles.control} onPress={() => login()}><Text style={styles.fontSize}>Sign in</Text></TouchableOpacity>
             {error
                 ? <Text>{error}</Text>
                 : null
@@ -60,11 +60,34 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     control: {
-        marginTop: 10
+        marginTop: 10,
+        alignItems: 'center',
+        backgroundColor: "#A68258",
+        width: 300,
+        height: 50,
+        borderColor: "#FFFFFF",
+        borderWidth: 2,
+        borderRadius: 5,
+        padding: 10
     },
     error: {
         marginTop: 10,
         padding: 10,
         color: 'red'
+    },
+    fontSize: {
+        fontSize: 20,
+        color: 'white'
+    },
+    font: {
+        marginTop: 10,
+        color: "#A68258",
+        width: 300,
+        height: 50,
+        borderColor: "#A68258",
+        borderWidth: 2,
+        borderRadius: 5,
+        padding: 10
+
     }
 });
