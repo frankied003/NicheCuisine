@@ -13,13 +13,17 @@ module.exports = (req, res, next) => {
     admin.auth().verifyIdToken(idToken)
         .then((decodedToken) => {
             req.user = decodedToken;
+            console.log("Hello")
+            console.log(req.user)
             return db.collection('users')
                 .where('userId', '==', req.user.uid)
                 .limit(1)
                 .get();
         })
         .then((data) => {
-            req.user.userHandle = data.docs[0].data().userHandle;
+            console.log("Here")
+            console.log(data.docs[0])
+            req.user.fullName = data.docs[0].data().fullName;
             req.user.userId = data.docs[0].data().userId;
             req.user.imageUrl = data.docs[0].data().imageUrl;
             return next();
