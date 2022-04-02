@@ -31,6 +31,7 @@ return(
            status={ checked === 'Dessert' ? 'checked' : 'unchecked' }
            onPress={() => setChecked('Dessert')}/>
        </Text>
+       <Text>Meal Name</Text>
     <TextInput
         placeholder='Meal name'
         style={styles.control}
