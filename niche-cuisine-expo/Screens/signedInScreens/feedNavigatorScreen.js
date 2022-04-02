@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import FeedScreen from './feedScreen';
 import SearchScreen from './searchScreen';
 import ProfileScreen from './profileScreen';
+import CreateMealScreen from "./createMealScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -14,6 +15,7 @@ export default function FeedNavigatorScreen({ navigation }) {
             <Tab.Screen name="Feed" component={FeedScreen} />
             <Tab.Screen name="Search" component={SearchScreen} />
             <Tab.Screen name="Profile" component={ProfileScreen} />
+            <Tab.Screen name="Create" component={CreateMealScreen} />
         </Tab.Navigator>
     );
 }
