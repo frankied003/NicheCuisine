@@ -3,6 +3,7 @@ import React from 'react';
 
 export default function Tag(props) {
     return (
+        
         <View style={styles.tag}>
             <Text style={styles.tagText}>{props.name}</Text>
         </View>
