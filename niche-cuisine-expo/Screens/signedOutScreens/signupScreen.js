@@ -72,6 +72,34 @@ export default function SignUpScreen({ navigation }) {
 
                 <View style={styles.aboutContainer}>
                 <View style={styles.abouttabContainer}>
+                    <Text style={styles.font}>Location</Text>
+                </View>
+                </View>
+                <View style={styles.aboutContainer2}>
+                    <View style={styles.abouttabContainer}>
+                        <TextInput
+                            placeholder= 'city, state'
+                            style={styles.inputText}
+                        />
+                    </View>
+                </View>
+
+                <View style={styles.aboutContainer}>
+                <View style={styles.abouttabContainer}>
+                    <Text style={styles.font}>Email</Text>
+                </View>
+                </View>
+                <View style={styles.aboutContainer2}>
+                    <View style={styles.abouttabContainer}>
+                        <TextInput
+                            placeholder= 'email'
+                            style={styles.inputText}
+                        />
+                    </View>
+                </View>
+
+                <View style={styles.aboutContainer}>
+                <View style={styles.abouttabContainer}>
                     <Text style={styles.font}>Password</Text>
                 </View>
                 </View>
@@ -143,13 +171,13 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#F6F4F1',
-        marginTop: 60
+        marginTop: 50
     },
     aboutHeading: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: 10,
+        marginTop: 5,
     },
     aboutText: {
         color:"#A68258", 
@@ -162,7 +190,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         padding: 10,       
-        marginTop: 20, 
+        marginTop: 10, 
     },
     aboutContainer2: {
         height: 20,
