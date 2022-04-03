@@ -8,6 +8,7 @@ exports.getMeals = async (req, res) => {
         mealsSnapshot.forEach(meal => {
             meals.push({
                 name: meal.data()?.name,
+                userName: meal.data()?.userName,
                 userId: meal.data()?.userId,
                 mealName: meal.data()?.mealName,
                 time: meal.data()?.time,

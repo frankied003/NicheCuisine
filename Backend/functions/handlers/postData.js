@@ -3,6 +3,7 @@ const { db, firebase } = require('../utilities/databaseAuth');
 exports.postMeal = async (req, res) => {
     let newMeal = {
         userId: req.user.userId,
+        userName: req.user.fullName,
         mealName: req.body.mealName,
         time: req.body.time,
         location: req.body.location,
