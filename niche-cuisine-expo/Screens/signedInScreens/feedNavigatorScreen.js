@@ -6,6 +6,7 @@ import { Icon } from 'react-native-elements';
 import FeedScreen from './feedScreen';
 import CreateScreen from './createScreen';
 import ProfileScreen from './profileScreen';
+import NotificationsScreen from './notificationsScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -41,6 +42,7 @@ export default function FeedNavigatorScreen({ navigation }) {
         >
             <Tab.Screen name="Feed" component={FeedScreen} />
             <Tab.Screen name="Create" component={CreateScreen} />
+            <Tab.Screen name="Notifications" component={NotificationsScreen} />
             <Tab.Screen name="Profile" component={ProfileScreen} />
         </ Tab.Navigator>
     );
