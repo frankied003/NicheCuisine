@@ -1,123 +1,129 @@
 import React from 'react';
-import{Text, View, StyleSheet, Image, TextInput, TouchableOpacity} from 'react-native';
+import { Text, View, StyleSheet, Image, TextInput, TouchableOpacity, ScrollView, Button } from 'react-native';
 import coverphoto from 'niche-cuisine-expo/assets/coverphoto.jpg';
 import profilepic from 'niche-cuisine-expo/assets/profilepic.png';
 import editProfile from 'niche-cuisine-expo/assets/editProfile.webp';
 import plus from 'niche-cuisine-expo/assets/plus.png';
 import { signOut, getAuth } from 'firebase/auth';
-import { useAuthentication } from '../../Utils/Hooks/useAuthentication';
 
 
 export default function ProfileScreen({ navigation }) {
 
-    //const auth = getAuth();
+    const auth = getAuth();
 
-        return (
-            <View style={styles.container}>
-                <Image source={coverphoto} style={styles.coverphoto} />
-                {/* <View style={styles.topHeader}>
-                <Image style={styles.headerIcons} source={require('niche-cuisine-expo/assets/homeicon.png')}/>
-                </View> */}
-                <View style={styles.dpContainer}>
-                    <View style={styles.dpBlueRound}>
-                        <Image
-                            style={styles.dp}
-                            source={profilepic}
-                        />
-                    </View>
+    return (
+        <ScrollView style={styles.container}>
+            <Image source={coverphoto} style={styles.coverphoto} />
+            <Image
+                style={styles.profilePic}
+                source={profilepic}
+            />
+
+            <TextInput
+                placeholder='name'
+                style={styles.name}
+            />
+
+            <TextInput
+                placeholder='bio'
+                style={styles.shortBio}
+            />
+
+            <View style={styles.divider}></View>
+
+            <View style={styles.aboutHeading}>
+                <Text style={styles.aboutText}>
+                    About
+                </Text>
+            </View>
+
+            <View style={styles.aboutContainer}>
+                <View style={styles.statContainer}>
+                    <Text style={styles.fontBold}>Age</Text>
+                    <Text style={styles.stateValueFont}>23</Text>
                 </View>
-
-                <TextInput
-                            placeholder= 'name'
-                            style={styles.name}
-                        />
-               
-                <TextInput
-                            placeholder= 'bio'
-                            style={styles.shortBio}
-                        />
-
-                <View style={styles.divider}></View>
-
-                <View style={styles.aboutHeading}>
-                    <Text style={styles.aboutText}>
-                        About
-                    </Text>
-                </View>
-
-                <View style={styles.aboutContainer}>
-                    <View style={styles.abouttabContainer}>
-                        <Text style={styles.font}>Age</Text>
-                    </View>
-                    <View style={styles.abouttabContainer}>
-                        <Text style={styles.font}>Location</Text>
-                    </View>
-                </View>
-
-                <View style={styles.aboutContainer}>
-                    <View style={styles.abouttabContainer}>
-                        <TextInput
-                            placeholder= 'age'
-                            style={styles.inputText}
-                        />
-                    </View> 
-                    <View style={styles.abouttabContainer}>
-                        <TextInput
-                            placeholder= 'location'
-                            style={styles.inputText}
-                        />
-                    </View>                 
-                </View>
-
-                <View style={styles.aboutContainer}>
-                    <View style={styles.abouttabContainer}>
-                        <Text style={styles.font}>Type</Text>
-                    </View>
-                    <View style={styles.abouttabContainer}>
-                        <Text style={styles.font}>Allergies</Text>
-                    </View>
-                </View>
-
-                <View style={styles.aboutContainer}>
-                    <View style={styles.abouttabContainer}>
-                        <TextInput
-                            placeholder= 'type'
-                            style={styles.inputText}
-                        />
-                    </View> 
-                    <View style={styles.abouttabContainer}>
-                        <TextInput
-                            placeholder= 'allergies'
-                            style={styles.inputText}
-                        />
-                    </View>                 
-                </View>
-
-
-                <View style={styles.profileTabsContainer}>
-                    <View style={styles.tabContainer}>
-                        <TouchableOpacity><Text style={styles.active}>Active Meals</Text></TouchableOpacity>
-                    </View>
-                    <View style={styles.tabContainer}>
-                         <TouchableOpacity><Text style={styles.past}>Past Meals</Text></TouchableOpacity>
-                    </View>
-                    <View style={styles.tabContainer}>
-                        <TouchableOpacity><Image
-                            style={styles.tabImage}
-                            source={editProfile}
-                        /></TouchableOpacity>
-                    </View>
-                    <View style={styles.tabContainer}>
-                        <TouchableOpacity><Image
-                            style={styles.tabImage}
-                            source={plus}
-                        /></TouchableOpacity>
-                    </View>
+                <View style={styles.statContainer}>
+                    <Text style={styles.fontBold}>Location</Text>
+                    <Text style={styles.stateValueFont}>Hoboken, NJ</Text>
                 </View>
             </View>
 
-        );
-    }
+            <View style={styles.aboutContainer}>
+                <View style={styles.statContainer}>
+                    <Text style={styles.fontBold}>Allergies</Text>
+                    <Text style={styles.stateValueFont}>Gluten, Peanuts</Text>
+                </View>
+                <View style={styles.statContainer}>
+                    <Text style={styles.fontBold}>Preferences</Text>
+                    <Text style={styles.stateValueFont}>Italin, American, Greek</Text>
+                </View>
+            </View>
+
+            {/* <View style={styles.aboutContainer}>
+                <View style={styles.abouttabContainer}>
+                    <TextInput
+                        placeholder='age'
+                        style={styles.inputText}
+                    />
+                </View>
+                <View style={styles.abouttabContainer}>
+                    <TextInput
+                        placeholder='location'
+                        style={styles.inputText}
+                    />
+                </View>
+            </View>
+
+            <View style={styles.aboutContainer}>
+                <View style={styles.abouttabContainer}>
+                    <Text style={styles.font}>Type</Text>
+                </View>
+                <View style={styles.abouttabContainer}>
+                    <Text style={styles.font}>Allergies</Text>
+                </View>
+            </View>
+
+            <View style={styles.aboutContainer}>
+                <View style={styles.abouttabContainer}>
+                    <TextInput
+                        placeholder='type'
+                        style={styles.inputText}
+                    />
+                </View>
+                <View style={styles.abouttabContainer}>
+                    <TextInput
+                        placeholder='allergies'
+                        style={styles.inputText}
+                    />
+                </View>
+            </View> */}
+
+
+            <View style={styles.profileTabsContainer}>
+                <View style={styles.tabContainer}>
+                    <TouchableOpacity><Text style={styles.active}>Active Meals</Text></TouchableOpacity>
+                </View>
+                <View style={styles.tabContainer}>
+                    <TouchableOpacity><Text style={styles.past}>Past Meals</Text></TouchableOpacity>
+                </View>
+                <View style={styles.tabContainer}>
+                    <TouchableOpacity><Image
+                        style={styles.tabImage}
+                        source={editProfile}
+                    /></TouchableOpacity>
+                </View>
+                <View style={styles.tabContainer}>
+                    <TouchableOpacity><Image
+                        style={styles.tabImage}
+                        source={plus}
+                    /></TouchableOpacity>
+                </View>
+            </View>
+            <Button title='Signout' onPress={() => signOut(auth)} />
+        </ScrollView>
+
+    );
+}
 
 
 
@@ -142,38 +148,24 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '25%'
     },
-    dpContainer: {
-        height: 200,
-        width: 200,
-        borderRadius: 200,
-        backgroundColor: 'white',
-        position: 'absolute',
-        alignSelf: 'center',
-        marginTop: 130,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    dpBlueRound: {
-        height: '95%',
-        width: '95%',
-        borderRadius: 200,
+    profilePic: {
+        height: 150,
+        width: 150,
+        borderRadius: 75,
         borderWidth: 5,
         borderColor: '#A68258',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    dp: {
-        height: 170,
-        width: 170,
+        backgroundColor: 'white',
+        alignSelf: 'center',
+        marginTop: 10
     },
     name: {
         alignSelf: 'center',
-        marginTop: 140,
+        marginTop: 10,
         fontWeight: 'bold',
         fontSize: 30,
     },
     shortBio: {
-        alignSelf:'center',
+        alignSelf: 'center',
         fontSize: 18,
         color: 'gray',
         margin: 8,
@@ -226,13 +218,21 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     aboutText: {
-        color:"#A68258", 
+        color: "#A68258",
         fontSize: 20,
         fontWeight: 'bold',
     },
-    font:{
+    font: {
         color: "black",
         fontSize: 18,
+    },
+    fontBold: {
+        fontWeight: 'bold',
+        opacity: .5,
+        fontSize: 18
+    },
+    stateValueFont: {
+        fontSize: 18
     },
     inputText: {
         color: "black",
@@ -242,18 +242,19 @@ const styles = StyleSheet.create({
         fontSize: 18,
     },
     aboutContainer: {
-        height: 40,
-        backgroundColor: '#F6F4F1',
+        margin: 10,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: 10,
-        
+        justifyContent: 'space-evenly'
+    },
+    statContainer: {
+        flexDirection: 'column',
+        alignItems: 'center'
     },
     abouttabContainer: {
         height: 50,
         width: 200,
         padding: 10
     },
-  
+
 });

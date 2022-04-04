@@ -24,6 +24,9 @@ export default function FeedNavigatorScreen({ navigation }) {
                     else if (route.name === 'Create') {
                         iconName = focused ? 'food-drumstick' : 'food-drumstick-outline';
                     }
+                    else if (route.name === 'Notifications') {
+                        iconName = focused ? 'bell' : 'bell-outline';
+                    }
                     else if (route.name === 'Profile') {
                         iconName = focused ? 'account' : 'account-outline';
                     }

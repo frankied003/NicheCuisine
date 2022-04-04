@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { StyleSheet, Text, SafeAreaView, FlatList, RefreshControl } from 'react-native';
+import { StyleSheet, Text, SafeAreaView, FlatList, RefreshControl, ActivityIndicator } from 'react-native';
 import { getMeals } from '../../Api/api';
 import MealCard from '../../Components/mealCard';
 
@@ -33,15 +33,22 @@ export default function FeedScreen({ navigation }) {
     );
 
     return (
-        <FlatList
-            refreshControl={
-                <RefreshControl refreshing={refreshing} onRefresh={loadMore} />
+        <>
+            {loadingMeals
+                ? <ActivityIndicator size='large' style={styles.activityIndicator} />
+                : (
+                    <FlatList
+                        refreshControl={
+                            <RefreshControl refreshing={refreshing} onRefresh={loadMore} />
+                        }
+                        data={meals}
+                        renderItem={renderItem}
+                        contentContainerStyle={styles.mainContainer}
+                        keyExtractor={meal => meal.id}
+                    />
+                )
             }
-            data={meals}
-            renderItem={renderItem}
-            contentContainerStyle={styles.mainContainer}
-            keyExtractor={meal => meal.id}
-        />
+        </>
     );
 }
 
@@ -51,4 +58,7 @@ const styles = StyleSheet.create({
         marginLeft: 6,
         marginRight: 6,
     },
+    activityIndicator: {
+        margin: 20
+    }
 });
