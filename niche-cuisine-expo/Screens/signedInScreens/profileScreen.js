@@ -29,7 +29,7 @@ export default function ProfileScreen({ navigation }) {
                 style={styles.shortBio}
             />
 
-            <View style={styles.divider}></View>
+            <View style={styles.divider} />
 
             <View style={styles.aboutHeading}>
                 <Text style={styles.aboutText}>

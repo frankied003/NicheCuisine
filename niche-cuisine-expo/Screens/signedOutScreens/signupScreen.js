@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import {
     Text, View, StyleSheet, Platform, TextInput,
     TouchableOpacity, KeyboardAvoidingView, TouchableWithoutFeedback,
-    Keyboard,
-    ScrollView
+    Keyboard, SafeAreaView, ScrollView, ActivityIndicator
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { signUp } from '../../Api/api';
+
+const auth = getAuth();
 
 export default function SignUpScreen({ navigation }) {
 
@@ -15,16 +17,71 @@ export default function SignUpScreen({ navigation }) {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [birthday, setBirthday] = useState('234589732');
     const [validSubmit, setvalidSubmit] = useState(false);
+    const [submitting, setsubmitting] = useState(false);
+    const [error, seterror] = useState(null);
 
     const checkInputs = () => {
-        if (fullName && email && password && confirmPassword && birthday) {
+        seterror(null);
+        if (fullName.length > 1
+            && email.length > 1
+            && password.length > 1
+            && confirmPassword.length > 1
+            && birthday.length > 1) {
             setvalidSubmit(true);
         }
+        else {
+            setvalidSubmit(false);
+        }
+    }
+
+    const handleNameChange = (text) => {
+        setFullName(text);
+        checkInputs();
     }
 
     const handleEmailChange = (text) => {
         setemail(text);
         checkInputs();
+    }
+
+    const handlePasswordChange = (text) => {
+        setPassword(text);
+        checkInputs();
+    }
+
+    const handleConfirmPasswordChange = (text) => {
+        setConfirmPassword(text);
+        checkInputs();
+    }
+
+    const onCreate = async () => {
+        setsubmitting(true);
+        const res = await signUp({
+            email: email,
+            password: password,
+            confirmPassword: confirmPassword,
+            fullname: fullName,
+            birthday: birthday
+        });
+        if (res.token) {
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+            } catch (err) {
+                seterror(err.message)
+            }
+        }
+        else {
+            if (res.email) {
+                seterror(res.email)
+            }
+            else if (res.passwords) {
+                seterror(res.passwords)
+            }
+            else {
+                seterror("Unable to create account at this time");
+            }
+        }
+        setsubmitting(false);
     }
 
     return (
@@ -42,7 +99,7 @@ export default function SignUpScreen({ navigation }) {
                             <Text style={styles.inputTitle}>Full Name</Text>
                             <TextInput
                                 placeholder='Full name'
-                                onChangeText={(text) => setFullName(text)}
+                                onChangeText={(text) => handleNameChange(text)}
                                 style={styles.inputText}
                             />
                         </View>
@@ -50,6 +107,8 @@ export default function SignUpScreen({ navigation }) {
                             <Text style={styles.inputTitle}>Email</Text>
                             <TextInput
                                 placeholder='Email'
+                                onChangeText={(text) => handleEmailChange(text)}
+                                keyboardType='email-address'
                                 style={styles.inputText}
                             />
                         </View>
@@ -71,18 +130,20 @@ export default function SignUpScreen({ navigation }) {
                             <Text style={styles.inputTitle}>Password</Text>
                             <TextInput
                                 placeholder='Password'
+                                onChangeText={(text) => handlePasswordChange(text)}
                                 style={styles.inputText}
                                 keyboardType='visible-password'
-                                textContentType='password'
+                                secureTextEntry={true}
                             />
                         </View>
                         <View style={styles.inputContainer}>
                             <Text style={styles.inputTitle}>Confirm Password</Text>
                             <TextInput
                                 placeholder='Confirm Password'
+                                onChangeText={(text) => handleConfirmPasswordChange(text)}
                                 style={styles.inputText}
                                 keyboardType='visible-password'
-                                textContentType='password'
+                                secureTextEntry={true}
                             />
                         </View>
                         <View style={styles.divider} />
@@ -101,9 +162,17 @@ export default function SignUpScreen({ navigation }) {
                                 style={styles.inputText}
                             />
                         </View>
-                        <TouchableOpacity style={styles.control}>
-                            <Text style={styles.fontSize}>Create</Text>
+                        <TouchableOpacity
+                            style={[styles.control, validSubmit ? null : { opacity: .5 }]}
+                            onPress={() => onCreate()}
+                            disabled={!validSubmit}
+                        >
+                            {submitting
+                                ? <ActivityIndicator />
+                                : <Text style={styles.fontSize}>Create</Text>
+                            }
                         </TouchableOpacity>
+                        <Text>{error}</Text>
                     </SafeAreaView>
                 </ScrollView>
             </TouchableWithoutFeedback>

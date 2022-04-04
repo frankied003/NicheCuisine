@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react';
-import { StyleSheet, Text, SafeAreaView, View, TouchableOpacity, TextInput } from 'react-native';
+import {
+    StyleSheet, Text, SafeAreaView, View, TouchableOpacity, TextInput, KeyboardAvoidingView,
+    TouchableWithoutFeedback, Keyboard, ScrollView
+} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
@@ -26,26 +29,32 @@ export default function LoginScreen({ navigation }) {
 
 
     return (
-        <SafeAreaView style={styles.container}>
-            <TextInput
-                placeholder='Email'
-                style={styles.font}
-                value={email}
-                onChangeText={(text) => setemail(text)}
-            />
-            <TextInput
-                placeholder='Password'
-                style={styles.font}
-                value={password}
-                onChangeText={(text) => setpassword(text)}
-                secureTextEntry={true}
-            />
-            <TouchableOpacity style={styles.control} onPress={() => login()}><Text style={styles.fontSize}>Sign in</Text></TouchableOpacity>
-            {error
-                ? <Text>{error}</Text>
-                : null
-            }
-        </SafeAreaView>
+        <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === "ios" ? "padding" : "height"}>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <ScrollView contentContainerStyle={styles.inner}>
+                    <SafeAreaView style={styles.container}>
+                        <TextInput
+                            placeholder='Email'
+                            style={styles.font}
+                            value={email}
+                            onChangeText={(text) => setemail(text)}
+                        />
+                        <TextInput
+                            placeholder='Password'
+                            style={styles.font}
+                            value={password}
+                            onChangeText={(text) => setpassword(text)}
+                            secureTextEntry={true}
+                        />
+                        <TouchableOpacity style={styles.control} onPress={() => login()}><Text style={styles.fontSize}>Sign in</Text></TouchableOpacity>
+                        {error
+                            ? <Text>{error}</Text>
+                            : null
+                        }
+                    </SafeAreaView>
+                </ScrollView>
+            </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
     );
 }
 
@@ -55,6 +64,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#F6F4F1',
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    inner: {
+        flex: 1,
+        backgroundColor: '#F6F4F1',
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     controls: {
         flex: 1,
