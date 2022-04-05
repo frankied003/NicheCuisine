@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import FeedScreen from './feedScreen';
 import SearchScreen from './searchScreen';
 import ProfileScreen from './profileScreen';
-import CreateMealScreen from "./createMealScreen";
+import CreateMealScreen from "./createScreen";
 
 const Tab = createBottomTabNavigator();
 
