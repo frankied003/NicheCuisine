@@ -10,7 +10,7 @@ export default function CreateMealScreen({navigation})
     const [ingrediants, setingrediant] = useState(''); 
     const [allergy,setallergy]=useState('');
     const [error, seterror] = useState('');
-    const [checked, setChecked] = useState('Appitizer');
+    const [checked, setChecked] = useState('Appetizer');
 
 return(
    <View style={styles.container}>
@@ -20,12 +20,12 @@ return(
         value={Title}
         onChangeText={(text)=> settitle(text)}
     />
-            <Text style={{fontSize:25,fontWeight:'bold'}}>Appitizer      Dinner        Dessert</Text>
+            <Text style={{fontSize:25,fontWeight:'bold'}}>Appetizer      Dinner        Dessert</Text>
             <Text style={styles.buttonGorup}>
            <RadioButton 
-            value = "Appitizer"
-            status={ checked === 'Appitizer' ? 'checked' : 'unchecked' }
-            onPress={() => setChecked('Appitizer')}
+            value = "Appetizer"
+            status={ checked === 'Appetizer' ? 'checked' : 'unchecked' }
+            onPress={() => setChecked('Appetizer')}
             style={{padding:Dimensions.get('window').width}}/>
             <RadioButton 
            value = "Dinner"
@@ -53,9 +53,9 @@ return(
         onChangeText={(text)=> setdescription(text)}
     />
 
-<Text style={styles.title}>Ingrediants</Text>
+<Text style={styles.title}>Ingredients</Text>
     <TextInput
-        placeholder='Ingrediants'
+        placeholder='Ingredients'
         style={styles.control}
         value={ingrediants}
         onChangeText={(text)=> setingrediant(text)}
