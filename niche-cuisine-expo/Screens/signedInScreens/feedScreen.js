@@ -45,6 +45,7 @@ export default function FeedScreen({ navigation }) {
                         renderItem={renderItem}
                         contentContainerStyle={styles.mainContainer}
                         keyExtractor={meal => meal.id}
+                        key={meal => meal.id}
                     />
                 )
             }
