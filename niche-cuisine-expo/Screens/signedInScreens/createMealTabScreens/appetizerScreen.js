@@ -20,6 +20,7 @@ export default function AppetizerScreen(props) {
     const changeSelectedAllergens = (tag) => {
         if (selectedAllergens.includes(tag)) {
             setselectedAllergens(selectedAllergens.filter(tagName => tag !== tagName))
+            props.handleAppetizerAllergies(selectedAllergens.filter(tagName => tag !== tagName))
         }
         else {
             const updatedSelectedAllergens = [
@@ -27,6 +28,7 @@ export default function AppetizerScreen(props) {
                 tag
             ]
             setselectedAllergens(updatedSelectedAllergens)
+            props.handleAppetizerAllergies(updatedSelectedAllergens)
         }
     }
 
@@ -39,7 +41,7 @@ export default function AppetizerScreen(props) {
                         <TextInput
                             placeholder='Title'
                             style={styles.titleInput}
-                            onChangeText={(text) => handleMealNameChange(text)}
+                            onChangeText={(text) => props.handleAppetizerNameChange(text)}
                         />
                         <Icon name='camera' type='material-community' color='#000000' />
                     </View>
@@ -48,14 +50,14 @@ export default function AppetizerScreen(props) {
                         placeholder='This appetizer is composed of...'
                         multiline={true}
                         style={styles.largeInput}
-                        onChangeText={(text) => handleMealNameChange(text)}
+                        onChangeText={(text) => props.handleAppetizerDescriptionChange(text)}
                     />
                     <Text style={styles.subTitle}>Ingredients</Text>
                     <TextInput
                         placeholder='Wheat, Milk, Eggs, etc...'
                         multiline={true}
                         style={styles.largeInput}
-                        onChangeText={(text) => handleMealNameChange(text)}
+                        onChangeText={(text) => props.handleAppetizerIngredientsChange(text)}
                     />
                     <Text style={styles.subTitle}>Allergens</Text>
                     <View style={styles.flexBox}>

@@ -39,7 +39,7 @@ export default function FeedScreen({ navigation }) {
                 : (
                     <FlatList
                         refreshControl={
-                            <RefreshControl refreshing={refreshing} onRefresh={loadMore} />
+                            <RefreshControl refreshing={refreshing} onRefresh={() => loadMore()} />
                         }
                         data={meals}
                         renderItem={renderItem}

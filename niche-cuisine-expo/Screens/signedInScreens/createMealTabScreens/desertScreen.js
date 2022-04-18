@@ -20,6 +20,7 @@ export default function AppetizerScreen(props) {
     const changeSelectedAllergens = (tag) => {
         if (selectedAllergens.includes(tag)) {
             setselectedAllergens(selectedAllergens.filter(tagName => tag !== tagName))
+            props.handleDesertAllergies(selectedAllergens.filter(tagName => tag !== tagName))
         }
         else {
             const updatedSelectedAllergens = [
@@ -27,6 +28,8 @@ export default function AppetizerScreen(props) {
                 tag
             ]
             setselectedAllergens(updatedSelectedAllergens)
+            props.handleDesertAllergies(updatedSelectedAllergens)
+
         }
     }
 

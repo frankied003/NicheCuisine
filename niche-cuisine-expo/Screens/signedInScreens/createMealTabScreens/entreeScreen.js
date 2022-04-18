@@ -20,6 +20,7 @@ export default function EntreeScreen(props) {
     const changeSelectedAllergens = (tag) => {
         if (selectedAllergens.includes(tag)) {
             setselectedAllergens(selectedAllergens.filter(tagName => tag !== tagName))
+            props.handleEntreeAllergies(selectedAllergens.filter(tagName => tag !== tagName))
         }
         else {
             const updatedSelectedAllergens = [
@@ -27,6 +28,7 @@ export default function EntreeScreen(props) {
                 tag
             ]
             setselectedAllergens(updatedSelectedAllergens)
+            props.handleEntreeAllergies(updatedSelectedAllergens)
         }
     }
 

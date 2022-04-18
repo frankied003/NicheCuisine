@@ -69,7 +69,7 @@ export const postMeal = async (params) => {
         }
     }
     let data = JSON.stringify(params);
-    return instance.post(`/getMeals`, data, config)
+    return instance.post(`/postMeal`, data, config)
         .then((response) => {
             return response.data
         })
