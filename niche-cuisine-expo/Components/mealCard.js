@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import React from 'react';
 import moment from 'moment';
 
@@ -8,7 +8,7 @@ import Tag from './tag';
 
 export default function MealCard(props) {
     return (
-        <View style={styles.cardContainer}>
+        <TouchableOpacity style={styles.cardContainer} onPress={() => props.navigation.push("ViewMeal", { data: props.data })}>
             <View style={styles.topHeaderContainer}>
                 <View style={styles.flexRow}>
                     <Image source={profilePic} style={styles.profileImage} />
@@ -26,7 +26,7 @@ export default function MealCard(props) {
                 </View>
                 <Text style={styles.priceText}>${props.data.price}</Text>
             </View>
-        </View>
+        </TouchableOpacity>
     )
 }
 
