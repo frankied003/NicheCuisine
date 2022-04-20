@@ -302,13 +302,13 @@ export default function CreateMealScreen({ navigation }) {
     const onChange = (event, selectedDate) => {
         const currentDate = selectedDate;
         setShow(false);
-        setdate(new Date(currentDate));
+        setdate(new Date());
     };
 
     const checkInputs = () => {
         seterror(null);
-        if (mealName.length > 1
-            && price.length > 1) {
+        if (mealName.length >= 1
+            && price.length >= 1) {
             setvalidSubmit(true);
         }
         else {
@@ -404,7 +404,7 @@ export default function CreateMealScreen({ navigation }) {
                     onChangeText={(price) => handlePriceChange(price)}
                 />
             </View>
-            <Text>{appetizerName}</Text>
+            {/* <Text>{appetizerName}</Text> */}
             <Tab.Navigator
                 style={styles.tabContainer}
                 screenOptions={{
@@ -455,7 +455,7 @@ export default function CreateMealScreen({ navigation }) {
             <View style={styles.footerContainer}>
                 <DateTimePicker
                     testID="dateTimePicker"
-                    value={date}
+                    value={new Date()}
                     style={styles.dateContainer}
                     minuteInterval={10}
                     mode={'datetime'}
