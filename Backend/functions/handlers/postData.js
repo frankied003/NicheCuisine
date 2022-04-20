@@ -73,3 +73,61 @@ exports.postMeal = async (req, res) => {
             return res.status(500).json({ error: err.code });
         });
 }
+
+exports.sendInvite = async (req, res) => {
+    let newInvite = {
+        userId: req.user.userId,
+        userName: req.user.fullName,
+        mealId: req.body.mealId,
+        accepted: false
+    };
+
+    const mealsSnapshot = await db.collection('meals').doc(req.body.mealId).get();
+    const mealData = mealsSnapshot.data();
+
+    newInvite.mealName = mealData.mealName;
+    newInvite.chefId = mealData.userId;
+
+    await db
+        .collection(`invites`)
+        .add(newInvite)
+        .then((data) => {
+            return db
+                .collection('users').doc(newInvite.chefId).collection('invites').doc(data.id).set({ inviteId: data.id });
+        })
+        .then(() => {
+            return res.status(201).json({ 'Success': 'Invite sent' });
+        })
+        .catch((err) => {
+            console.log(err);
+            return res.status(500).json({ error: err.code });
+        });
+}
+
+exports.acceptInvite = async (req, res) => {
+    const inviteRef = db.collection('invites').doc(req.body.inviteId);
+    inviteRef
+        .update({ accepted: true })
+        .then(() => {
+            return res.status(201).json({ 'Success': 'Invite accepted' });
+        })
+        .catch((err) => {
+            console.log(err);
+            return res.status(500).json({ error: err.code });
+        });
+}
+
+exports.rejectInvite = async (req, res) => {
+    const inviteRef = db.collection('invites').doc(req.body.inviteId);
+    inviteRef
+        .delete()
+        .then(() => {
+            return res.status(201).json({ 'Success': 'Invite deleted' });
+        })
+        .catch((err) => {
+            console.log(err);
+            return res.status(500).json({ error: err.code });
+        });
+}
+
+
