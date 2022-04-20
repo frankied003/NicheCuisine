@@ -29,7 +29,7 @@ export default function FeedScreen({ navigation }) {
     }
 
     const renderItem = ({ item }) => (
-        <MealCard data={item} />
+        <MealCard data={item} navigation={navigation} />
     );
 
     return (
