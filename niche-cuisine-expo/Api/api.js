@@ -78,3 +78,104 @@ export const postMeal = async (params) => {
             return error.data
         });
 }
+
+export const sendInvite = async (params) => {
+    const authToken = await checkAuthToken();
+    let config = {
+        headers: {
+            Authorization: authToken,
+            'Content-Type': 'application/json'
+        }
+    }
+    let data = JSON.stringify(params);
+    return instance.post(`/sendInvite`, data, config)
+        .then((response) => {
+            return response.data
+        })
+        .catch((error) => {
+            console.log(error);
+            return error.data
+        });
+}
+
+export const acceptInvite = async (params) => {
+    const authToken = await checkAuthToken();
+    let config = {
+        headers: {
+            Authorization: authToken,
+            'Content-Type': 'application/json'
+        }
+    }
+    let data = JSON.stringify(params);
+    return instance.post(`/acceptInvite`, data, config)
+        .then((response) => {
+            return response.data
+        })
+        .catch((error) => {
+            console.log(error);
+            return error.data
+        });
+}
+
+export const rejectInvite = async (params) => {
+    const authToken = await checkAuthToken();
+    let config = {
+        headers: {
+            Authorization: authToken,
+            'Content-Type': 'application/json'
+        }
+    }
+    let data = JSON.stringify(params);
+    return instance.post(`/rejectInvite`, data, config)
+        .then((response) => {
+            return response.data
+        })
+        .catch((error) => {
+            console.log(error);
+            return error.data
+        });
+}
+
+export const getInvites = async (paramObject = null) => {
+    const authToken = await checkAuthToken();
+    let config = paramObject ? {
+        headers: {
+            Authorization: authToken,
+            params: paramObject
+        }
+    } : {
+        headers: {
+            Authorization: authToken,
+        }
+    }
+    return instance.get(`/getInvites`, config)
+        .then((response) => {
+            return response.data
+        })
+        .catch((error) => {
+            console.log(error);
+            return error.data
+        });
+}
+
+export const getAcceptedInvites = async (paramObject = null) => {
+    const authToken = await checkAuthToken();
+    let config = paramObject ? {
+        headers: {
+            Authorization: authToken,
+            params: paramObject
+        }
+    } : {
+        headers: {
+            Authorization: authToken,
+        }
+    }
+    return instance.get(`/getAcceptedInvites`, config)
+        .then((response) => {
+            return response.data
+        })
+        .catch((error) => {
+            console.log(error);
+            return error.data
+        });
+}
