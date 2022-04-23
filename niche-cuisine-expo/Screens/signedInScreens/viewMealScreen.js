@@ -19,8 +19,11 @@ export default function ViewMealScreen(props) {
         setcheckingInvite(true)
         let invitePresentReq = await getRequest('/checkInviteForMeal', { mealId: route.params.data.id });
         console.log(invitePresentReq)
-        if (invitePresentReq) {
+        if (invitePresentReq.present) {
             setinvitePresent(true)
+        }
+        else {
+            setinvitePresent(false)
         }
         setcheckingInvite(false);
     }, [])

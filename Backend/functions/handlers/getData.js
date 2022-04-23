@@ -82,11 +82,12 @@ exports.checkInviteForMeal = async (req, res) => {
 
     try {
         const inviteSnapshot = await db.collection('invites').where('mealId', '==', mealId).where('userId', '==', req.user.userId).get();
-        if (inviteSnapshot.exists) {
-            return res.json({ 'Success': true })
+        console.log(inviteSnapshot.empty)
+        if (!inviteSnapshot.empty) {
+            return res.json({ 'present': true })
         }
         else {
-            return res.json({ 'error': false })
+            return res.json({ 'present': false })
         }
     } catch (error) {
         console.error(error);
