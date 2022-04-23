@@ -5,7 +5,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import AppetizerScreen from './createMealTabScreens/appetizerScreen';
 import EntreeScreen from './createMealTabScreens/entreeScreen';
 import DesertScreen from './createMealTabScreens/desertScreen';
-import { postMeal } from '../../Api/api';
+import { postRequest } from '../../Api/api';
 
 export default function CreateMealScreen({ navigation }) {
 
@@ -134,7 +134,7 @@ export default function CreateMealScreen({ navigation }) {
             }
         }
         console.log(createdMeal)
-        const postMealreq = await postMeal(createdMeal);
+        const postMealreq = await postRequest('/postMeal', createdMeal);
         console.log(postMealreq)
         if (postMealreq.Success) {
             setmealName('');

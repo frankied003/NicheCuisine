@@ -1,19 +1,50 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import moment from 'moment';
-import { Text, View, StyleSheet, Image, TextInput, TouchableOpacity, ScrollView, Button, SectionList } from 'react-native';
-import { sendInvite } from '../../Api/api';
+import { Text, View, StyleSheet, Image, TextInput, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
+import { getRequest, postRequest } from '../../Api/api';
 
 export default function ViewMealScreen(props) {
 
     const { navigation, route } = props;
 
+    const [invitePresent, setinvitePresent] = useState(false);
+    const [checkingInvite, setcheckingInvite] = useState(true);
+
+    const [quantity, setquantity] = useState('1');
+    const [sendingInvite, setsendingInvite] = useState(false);
+    const [inviteSentSuccessfully, setinviteSentSuccessfully] = useState(false);
+    const [error, seterror] = useState(null);
+
     useEffect(async () => {
-        let newMeals = await getMeals();
-        setloadingMeals(false);
-        if (newMeals.length > 0) {
-            setmeals(newMeals);
+        setcheckingInvite(true)
+        let invitePresentReq = await getRequest('/checkInviteForMeal', { mealId: route.params.data.id });
+        console.log(invitePresentReq)
+        if (invitePresentReq) {
+            setinvitePresent(true)
         }
+        setcheckingInvite(false);
     }, [])
+
+    const onInterestedButtonPress = async () => {
+        seterror(null);
+        const createdInvite = {
+            quantity: quantity,
+            mealId: route.params.data.id
+        }
+        setsendingInvite(true);
+        let sendingInviteReq = await postRequest('/sendInvite', createdInvite);
+        console.log(sendingInviteReq)
+        if (sendingInviteReq.Success) {
+            setinviteSentSuccessfully(true)
+            setTimeout(() => {
+                navigation.goBack()
+            }, 1000);
+        }
+        else {
+            seterror("Error sending interested notification to chef");
+        }
+        setsendingInvite(false);
+    }
 
 
     return (
@@ -42,8 +73,35 @@ export default function ViewMealScreen(props) {
                             </View>
                         );
                     })}
+                {checkingInvite
+                    ? <View>
+                        <ActivityIndicator />
+                    </View>
+                    : !invitePresent
+                        ? (
+                            <View style={styles.spaceBetweenRow}>
+                                <View style={styles.row}>
+                                    <Text style={styles.profileNameText}>Guests</Text>
+                                    <TextInput
+                                        value='1'
+                                        style={styles.textInput}
+                                        onChangeText={(text) => setquantity(text)}
+                                    />
+                                </View>
+                                <TouchableOpacity style={styles.button} onPress={() => onInterestedButtonPress()}>{sendingInvite
+                                    ? <ActivityIndicator />
+                                    : inviteSentSuccessfully
+                                        ? <Text style={styles.fontSize}>Sent</Text>
+                                        : <Text style={styles.fontSize}>Interested</Text>
+                                }</TouchableOpacity>
+                            </View>
+                        )
+                        : <TouchableOpacity style={[styles.button, { opacity: .5, alignSelf: 'center' }]} disabled>
+                            <Text style={styles.fontSize}>Sent</Text>
+                        </TouchableOpacity>
+                }
+                <Text>{error}</Text>
             </View>
-
         </ScrollView>
 
     );
@@ -57,7 +115,41 @@ const styles = StyleSheet.create({
         backgroundColor: '#F6F4F1',
     },
     textContent: {
+        width: '100%',
         padding: 10
+    },
+    spaceBetweenRow: {
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: 10
+    },
+    row: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        padding: 10
+    },
+    textInput: {
+        fontSize: 18,
+        borderBottomColor: '#cfcfcf',
+        borderBottomWidth: 2,
+        width: 25,
+        textAlign: 'center',
+        marginHorizontal: 10
+    },
+    button: {
+        backgroundColor: "#A68258",
+        borderRadius: 5,
+        width: 150,
+        padding: 10,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        textAlign: 'center'
+    },
+    fontSize: {
+        fontSize: 20,
+        color: '#fff'
     },
     title: {
         fontWeight: 'bold',
