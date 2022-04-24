@@ -69,9 +69,11 @@ let data = {
 }
 
 export default function InviteCard(props) {
+    const { navigation, route } = props
+    
     return (
         <View style={styles.cardContainer}>
-            
+            <Text style ={styles.profileNameText}>Host: {route.params.data.userName}</Text>
             <MealCard data={data}/>
             <View style={styles.flexBetweenRow}>
                 <View style={styles.buttonsContainer}>
