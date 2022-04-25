@@ -60,6 +60,26 @@ export const getMeals = async (paramObject = null) => {
         });
 }
 
+
+export const getInvites = async (paramObject = null)=>{
+    const authToken = await checkAuthToken();
+    let config = paramOject ?{
+        headers: {
+            Authorization: authToken,
+            params: paramObject
+        }
+    }:{
+        headers:{
+            Authorization: authToken,
+        }
+    }
+    return instance.get('/getInvites', config)
+    .then((response)=>{return response.data})
+    .catch((error)=>{
+        console.log(error);
+        return error.data
+    });
+}
 export const postMeal = async (params) => {
     const authToken = await checkAuthToken();
     let config = {
