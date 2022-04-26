@@ -1,20 +1,65 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { useState, useEffect } from 'react';
+import { StyleSheet, Text, SafeAreaView, FlatList, RefreshControl, ActivityIndicator } from 'react-native';
+import { getMeals } from '../../Api/api';
+import MealCard from '../../Components/mealCard';
 
 // Components
 
-export default function NotificationsScreen({ navigation }) {
+export default function FeedScreen({ navigation }) {
+
+    const [loadingMeals, setloadingMeals] = useState(true);
+    const [meals, setmeals] = useState([]);
+    const [refreshing, setrefreshing] = useState(false);
+    const [error, seterror] = useState(null);
+
+    useEffect(async () => {
+        let newMeals = await getMeals();
+        setloadingMeals(false);
+        if (newMeals.length > 0) {
+            setmeals(newMeals);
+        }
+    }, [])
+
+    const loadMore = async () => {
+        let newMeals = getMeals();
+        setloadingMeals(false);
+        if (newMeals.length > 0) {
+            setmeals(newMeals);
+        }
+    }
+
+    const renderItem = ({ item }) => (
+        <MealCard data={item} navigation={navigation} />
+    );
+
     return (
-        <View style={styles.container}>
-            <Text>Notifications Screen</Text>
-        </View>
+        <>
+            {loadingMeals
+                ? <ActivityIndicator size='large' style={styles.activityIndicator} />
+                : (
+                    <FlatList
+                        refreshControl={
+                            <RefreshControl refreshing={refreshing} onRefresh={() => loadMore()} />
+                        }
+                        data={meals}
+                        renderItem={renderItem}
+                        contentContainerStyle={styles.mainContainer}
+                        keyExtractor={meal => meal.id}
+                        key={meal => meal.id}
+                    />
+                )
+            }
+        </>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#F6F4F1',
-        alignItems: 'center',
-        justifyContent: 'center',
+    mainContainer: {
+        marginTop: 6,
+        marginLeft: 6,
+        marginRight: 6,
     },
+    activityIndicator: {
+        margin: 20
+    }
 });
