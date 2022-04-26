@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Button, Image } from 'react-native';
+import { View, Text, StyleSheet, Button, Image, Alert } from 'react-native';
 import profilePic from '../assets/profilepic.png';
-import { getRequest } from '../Api/api';
+import { getRequest, postRequest } from '../Api/api';
 
 
 export default function InviteCard(props) {
@@ -9,12 +9,40 @@ export default function InviteCard(props) {
     const { navigation } = props;
 
     const [mealData, setmealData] = useState({});
+    const [error, seterror] = useState(null);
 
     useEffect(async () => {
         let mealReq = await getRequest('/getMeal', { mealId: props.data.mealId });
         setmealData(mealReq)
     }, [])
 
+    const invitationAction = async (route) => {
+        seterror(null);
+        let inviteReq = await postRequest(route, { inviteId: props.data.inviteId });
+        if (inviteReq.Success) {
+            if (route === '/acceptInvite') {
+                Alert.alert(
+                    "Invite Accepted",
+                    "Invite has been accepted",
+                    [
+                        { text: "OK", onPress: props.removeInviteFromScreen(props.data.inviteId) }
+                    ]
+                );
+            }
+            else {
+                Alert.alert(
+                    "Invite Rejected",
+                    "User will not be notified of the rejection",
+                    [
+                        { text: "OK", onPress: props.removeInviteFromScreen(props.data.inviteId) }
+                    ]
+                );
+            }
+        }
+        else {
+            seterror(inviteReq.error);
+        }
+    }
 
     return (
         <View style={styles.cardContainer}>
@@ -30,13 +58,17 @@ export default function InviteCard(props) {
                     ? null
                     : (
                         <View>
-                            <Button title='Accept' />
-                            <Button title="Deny" />
+                            <Button title='Accept' onPress={() => invitationAction('/acceptInvite')} />
+                            <Button title="Deny" onPress={() => invitationAction('/rejectInvite')} />
                         </View>
                     )
                 }
             </View>
             <Button title='View Meal' onPress={() => navigation.push("ViewMeal", { data: mealData })} />
+            {error
+                ? <Text style={styles.errorText}>{error}</Text>
+                : null
+            }
         </View>
     )
 }
@@ -55,8 +87,7 @@ const styles = StyleSheet.create({
     topHeaderContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: 10
+        alignItems: 'center'
     },
     profileImage: {
         width: 40,
@@ -70,26 +101,13 @@ const styles = StyleSheet.create({
         fontSize: 13,
         fontWeight: '600'
     },
-    mealText: {
-        fontSize: 20,
-        fontWeight: '600'
-    },
-    mainImage: {
-        width: '100%',
-        height: 250
-    },
-    buttonsContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        maxWidth: '80%'
-    },
     flexBetweenRow: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between'
     },
-    priceText: {
-        fontSize: 15,
-        fontWeight: 'bold'
+    errorText: {
+        color: 'red',
+        fontSize: 15
     }
 });

@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, ActivityIndicator, FlatList, RefreshControl } f
 import InviteCard from '../../../Components/inviteCard';
 import { getRequest } from '../../../Api/api';
 
-export default function AcceptedInvitesScreen(props) {
+export default function AttendingInvitesScreen(props) {
 
     const { navigation } = props;
 
@@ -13,7 +13,7 @@ export default function AcceptedInvitesScreen(props) {
     const [invites, setinvites] = useState([]);
 
     useEffect(async () => {
-        let invitesReq = await getRequest('/getAcceptedInvites');
+        let invitesReq = await getRequest('/getAttendingInvites');
         setloadingInvites(false);
         if (invitesReq.length > 0) {
             setinvites(invitesReq);
@@ -25,7 +25,7 @@ export default function AcceptedInvitesScreen(props) {
     );
 
     const loadMore = async () => {
-        let invitesReq = await getRequest('/getAcceptedInvites');
+        let invitesReq = await getRequest('/getAttendingInvites');
         setloadingInvites(false);
         if (invitesReq.length > 0) {
             setinvites(invitesReq);

@@ -1,7 +1,7 @@
 import { StyleSheet, View } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import ActiveInvitesScreen from './notificationsScreens/activeInvitesScreen';
-import AcceptedInvitesScreen from './notificationsScreens/acceptedInvitesScreen';
+import HostingInvitesScreen from './notificationsScreens/hostingInvitesScreen';
 
 // Components
 
@@ -31,9 +31,15 @@ export default function NotificationScreen({ navigation }) {
                     }
                 />
                 <Tab.Screen
-                    name="Accepted"
+                    name="Hosting"
                     children={() =>
-                        <AcceptedInvitesScreen navigation={navigation} />
+                        <HostingInvitesScreen navigation={navigation} />
+                    }
+                />
+                <Tab.Screen
+                    name="Attending"
+                    children={() =>
+                        <HostingInvitesScreen navigation={navigation} />
                     }
                 />
             </Tab.Navigator>

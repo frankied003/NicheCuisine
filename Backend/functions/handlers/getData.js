@@ -27,11 +27,34 @@ exports.getMeals = async (req, res) => {
 
 }
 
-exports.getAcceptedInvites = async (req, res) => {
+exports.getHostingInvites = async (req, res) => {
 
     try {
         let invites = []
         const inviteSnapshot = await db.collection('invites').where('chefId', '==', req.user.userId).where('accepted', '==', true).get();
+        inviteSnapshot.forEach(invite => {
+            invites.push({
+                userId: invite.data()?.userId,
+                userName: invite.data()?.userName,
+                mealId: invite.data()?.mealId,
+                mealName: invite.data()?.mealName,
+                accepted: invite.data()?.accepted,
+                inviteId: invite.id
+            })
+        });
+        return res.json(invites)
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: error });
+    }
+
+}
+
+exports.getAttendingInvites = async (req, res) => {
+
+    try {
+        let invites = []
+        const inviteSnapshot = await db.collection('invites').where('userId', '==', req.user.userId).where('accepted', '==', true).get();
         inviteSnapshot.forEach(invite => {
             invites.push({
                 userId: invite.data()?.userId,

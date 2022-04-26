@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, ActivityIndicator, FlatList, RefreshControl } f
 import InviteCard from '../../../Components/inviteCard';
 import { getRequest } from '../../../Api/api';
 
-export default function ActiveInvitesScreen(props) {
+export default function HostingInvitesScreen(props) {
 
     const { navigation } = props;
 
@@ -13,31 +13,24 @@ export default function ActiveInvitesScreen(props) {
     const [invites, setinvites] = useState([]);
 
     useEffect(async () => {
-        let invitesReq = await getRequest('/getInvites');
+        let invitesReq = await getRequest('/getHostingInvites');
         setloadingInvites(false);
         if (invitesReq.length > 0) {
             setinvites(invitesReq);
         }
     }, [])
 
+    const renderItem = ({ item }) => (
+        <InviteCard data={item} navigation={navigation} />
+    );
+
     const loadMore = async () => {
-        let invitesReq = await getRequest('/getInvites');
+        let invitesReq = await getRequest('/getHostingInvites');
         setloadingInvites(false);
         if (invitesReq.length > 0) {
             setinvites(invitesReq);
         }
     }
-
-    const removeInviteFromScreen = (inviteId) => {
-        const newInviteArray = invites.filter(function (invite) {
-            return invite.inviteId !== inviteId;
-        });
-        setinvites(newInviteArray);
-    }
-
-    const renderItem = ({ item }) => (
-        <InviteCard data={item} navigation={navigation} removeInviteFromScreen={removeInviteFromScreen} />
-    );
 
 
     return (
