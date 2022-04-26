@@ -9,35 +9,6 @@ import { postRequest } from '../../Api/api';
 
 export default function CreateMealScreen({ navigation }) {
 
-    const meal = {
-        "mealName": "",
-        "time": 0,
-        "location": "",
-        "price": "",
-        "searchTags": [],
-        "appetizer": {
-            "name": "",
-            "image": "",
-            "description": "",
-            "ingredients": [],
-            "allergens": []
-        },
-        "entree": {
-            "name": "",
-            "image": "",
-            "description": "",
-            "ingredients": [],
-            "allergens": []
-        },
-        "desert": {
-            "name": "",
-            "image": "",
-            "description": "",
-            "ingredients": [],
-            "allergens": []
-        }
-    };
-
     const Tab = createMaterialTopTabNavigator();
 
     const [mealName, setmealName] = useState('');

@@ -96,3 +96,33 @@ exports.checkInviteForMeal = async (req, res) => {
 
 }
 
+exports.getMeal = async (req, res) => {
+
+    const mealId = req.query.mealId;
+
+    try {
+        const meal = await db.collection('meals').doc(mealId).get();
+        if (!meal.empty) {
+            return res.json({
+                name: meal.data()?.name,
+                userName: meal.data()?.userName,
+                userId: meal.data()?.userId,
+                mealName: meal.data()?.mealName,
+                time: meal.data()?.time,
+                location: meal.data()?.location,
+                price: meal.data()?.price,
+                searchTags: meal.data()?.searchTags,
+                subMeals: meal.data()?.subMeals,
+                id: meal.id
+            })
+        }
+        else {
+            return res.json({})
+        }
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: error });
+    }
+
+}
+

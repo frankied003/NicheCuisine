@@ -1,65 +1,56 @@
-import { useState, useEffect } from 'react';
-import { StyleSheet, Text, SafeAreaView, FlatList, RefreshControl, ActivityIndicator } from 'react-native';
-import { getMeals } from '../../Api/api';
-import MealCard from '../../Components/mealCard';
+import { StyleSheet, View } from 'react-native';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import ActiveInvitesScreen from './notificationsScreens/activeInvitesScreen';
+import AcceptedInvitesScreen from './notificationsScreens/acceptedInvitesScreen';
 
 // Components
 
-export default function FeedScreen({ navigation }) {
+export default function NotificationScreen({ navigation }) {
 
-    const [loadingMeals, setloadingMeals] = useState(true);
-    const [meals, setmeals] = useState([]);
-    const [refreshing, setrefreshing] = useState(false);
-    const [error, seterror] = useState(null);
-
-    useEffect(async () => {
-        let newMeals = await getMeals();
-        setloadingMeals(false);
-        if (newMeals.length > 0) {
-            setmeals(newMeals);
-        }
-    }, [])
-
-    const loadMore = async () => {
-        let newMeals = getMeals();
-        setloadingMeals(false);
-        if (newMeals.length > 0) {
-            setmeals(newMeals);
-        }
-    }
-
-    const renderItem = ({ item }) => (
-        <MealCard data={item} navigation={navigation} />
-    );
+    const Tab = createMaterialTopTabNavigator();
 
     return (
-        <>
-            {loadingMeals
-                ? <ActivityIndicator size='large' style={styles.activityIndicator} />
-                : (
-                    <FlatList
-                        refreshControl={
-                            <RefreshControl refreshing={refreshing} onRefresh={() => loadMore()} />
-                        }
-                        data={meals}
-                        renderItem={renderItem}
-                        contentContainerStyle={styles.mainContainer}
-                        keyExtractor={meal => meal.id}
-                        key={meal => meal.id}
-                    />
-                )
-            }
-        </>
+        <View style={styles.container}>
+            <Tab.Navigator
+                style={styles.tabContainer}
+                screenOptions={{
+                    tabBarActiveTintColor: "white",
+                    tabBarInactiveTintColor: "black",
+                    tabBarPressOpacity: .9,
+                    tabBarIndicatorStyle: {
+                        backgroundColor: "#A68258",
+                        height: "100%"
+                    },
+
+                }}
+            >
+                <Tab.Screen
+                    name="Invites"
+                    children={() =>
+                        <ActiveInvitesScreen navigation={navigation} />
+                    }
+                />
+                <Tab.Screen
+                    name="Accepted"
+                    children={() =>
+                        <AcceptedInvitesScreen navigation={navigation} />
+                    }
+                />
+            </Tab.Navigator>
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
-    mainContainer: {
-        marginTop: 6,
-        marginLeft: 6,
-        marginRight: 6,
+    container: {
+        flex: 1,
+        backgroundColor: '#F6F4F1',
+        alignItems: 'flex-start',
+        justifyContent: 'space-between',
+        padding: 10,
+        textAlign: 'center'
     },
-    activityIndicator: {
-        margin: 20
-    }
+    tabContainer: {
+        width: '100%',
+    },
 });

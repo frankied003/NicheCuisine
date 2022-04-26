@@ -1,86 +1,42 @@
-import { View, Text, StyleSheet, Image } from 'react-native';
-import React from 'react';
-import moment from 'moment';
-import MealCard from './mealCard';
-
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, Button, Image } from 'react-native';
 import profilePic from '../assets/profilepic.png';
-import noImage from '../assets/no-image.jpg';
-let data = {
-    "userName": "Frank DiGiacomo",
-    "userId": "UbNCHYsBpyVrr1LEIc8s6wYhfWJ3",
-    "mealName": "Italian Stalion",
-    "time": 1649832218,
-    "location": "806 castle point terrace",
-    "price": "35.99",
-    "searchTags": [
-        "Italian",
-        "Pasta",
-        "Red Sauce"
-    ],
-    "subMeals": [
-        {
-            "description": "Fish sticks with dipping sauce",
-            "ingredients": [
-                "Wheat",
-                "Fish"
-            ],
-            "image": "none",
-            "allergens": [
-                "Gluten",
-                "Milk",
-                "Fish"
-            ],
-            "name": "Fish Sticks",
-            "type": "Appetizer"
-        },
-        {
-            "name": "Pasta bowl",
-            "image": "none",
-            "type": "Entree",
-            "allergens": [
-                "Gluten",
-                "Milk"
-            ],
-            "ingredients": [
-                "Wheat",
-                "Milk",
-                "Butter"
-            ],
-            "description": "Pasta bowl with dipping sauce"
-        },
-        {
-            "name": "Lava Cake",
-            "image": "none",
-            "type": "Desert",
-            "allergens": [
-                "Gluten",
-                "Milk",
-                "Eggs"
-            ],
-            "ingredients": [
-                "Wheat",
-                "Milk",
-                "Eggs"
-            ],
-            "description": "So good, would eat for breakfast lunch and dinner"
-        }
-    ],
-    "id": "AiQvaaoHq4ZJB7bPsUTV"
-}
+import { getRequest } from '../Api/api';
+
 
 export default function InviteCard(props) {
-    const { navigation, route } = props
-    
+
+    const { navigation } = props;
+
+    const [mealData, setmealData] = useState({});
+
+    useEffect(async () => {
+        let mealReq = await getRequest('/getMeal', { mealId: props.data.mealId });
+        setmealData(mealReq)
+    }, [])
+
+
     return (
         <View style={styles.cardContainer}>
-            <Text style ={styles.profileNameText}>Host: {route.params.data.userName}</Text>
-            <MealCard data={data}/>
-            <View style={styles.flexBetweenRow}>
-                <View style={styles.buttonsContainer}>
-                <   Button variant="contained">Accept</Button>
-                <   Button variant="contained">Decline</Button>
+            <View style={styles.topHeaderContainer}>
+                <View style={styles.flexRow}>
+                    <Image source={profilePic} style={styles.profileImage} />
+                    <View>
+                        <Text style={styles.profileNameText}>{props.data.userName}</Text>
+                        <Text style={styles.profileNameText}>Meal: {props.data.mealName}</Text>
+                    </View>
                 </View>
+                {props.data.accepted
+                    ? null
+                    : (
+                        <View>
+                            <Button title='Accept' />
+                            <Button title="Deny" />
+                        </View>
+                    )
+                }
             </View>
+            <Button title='View Meal' onPress={() => navigation.push("ViewMeal", { data: mealData })} />
         </View>
     )
 }
@@ -89,7 +45,6 @@ const styles = StyleSheet.create({
     cardContainer: {
         marginBottom: 10,
         backgroundColor: '#ffffff',
-        borderRadius: 25,
         height: 'auto',
         padding: 10
     },
