@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { StyleSheet, Text, SafeAreaView, FlatList, RefreshControl, ActivityIndicator } from 'react-native';
-import { getMeals } from '../../Api/api';
+import { getRequest } from '../../Api/api';
 import MealCard from '../../Components/mealCard';
 
 // Components
@@ -13,7 +13,7 @@ export default function FeedScreen({ navigation }) {
     const [error, seterror] = useState(null);
 
     useEffect(async () => {
-        let newMeals = await getMeals();
+        let newMeals = await getRequest('/getMeals');
         setloadingMeals(false);
         if (newMeals.length > 0) {
             setmeals(newMeals);
@@ -21,7 +21,7 @@ export default function FeedScreen({ navigation }) {
     }, [])
 
     const loadMore = async () => {
-        let newMeals = getMeals();
+        let newMeals = await getRequest('/getMeals');
         setloadingMeals(false);
         if (newMeals.length > 0) {
             setmeals(newMeals);

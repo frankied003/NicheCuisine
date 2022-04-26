@@ -5,38 +5,9 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import AppetizerScreen from './createMealTabScreens/appetizerScreen';
 import EntreeScreen from './createMealTabScreens/entreeScreen';
 import DesertScreen from './createMealTabScreens/desertScreen';
-import { postMeal } from '../../Api/api';
+import { postRequest } from '../../Api/api';
 
 export default function CreateMealScreen({ navigation }) {
-
-    const meal = {
-        "mealName": "",
-        "time": 0,
-        "location": "",
-        "price": "",
-        "searchTags": [],
-        "appetizer": {
-            "name": "",
-            "image": "",
-            "description": "",
-            "ingredients": [],
-            "allergens": []
-        },
-        "entree": {
-            "name": "",
-            "image": "",
-            "description": "",
-            "ingredients": [],
-            "allergens": []
-        },
-        "desert": {
-            "name": "",
-            "image": "",
-            "description": "",
-            "ingredients": [],
-            "allergens": []
-        }
-    };
 
     const Tab = createMaterialTopTabNavigator();
 
@@ -134,7 +105,7 @@ export default function CreateMealScreen({ navigation }) {
             }
         }
         console.log(createdMeal)
-        const postMealreq = await postMeal(createdMeal);
+        const postMealreq = await postRequest('/postMeal', createdMeal);
         console.log(postMealreq)
         if (postMealreq.Success) {
             setmealName('');

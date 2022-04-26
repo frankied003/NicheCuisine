@@ -5,7 +5,7 @@ import {
     Keyboard, SafeAreaView, ScrollView, ActivityIndicator
 } from 'react-native';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { signUp } from '../../Api/api';
+import { postRequest } from '../../Api/api';
 
 const auth = getAuth();
 
@@ -56,7 +56,7 @@ export default function SignUpScreen({ navigation }) {
 
     const onCreate = async () => {
         setsubmitting(true);
-        const res = await signUp({
+        const res = await postRequest('/signp', {
             email: email,
             password: password,
             confirmPassword: confirmPassword,

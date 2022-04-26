@@ -79,6 +79,7 @@ exports.sendInvite = async (req, res) => {
         userId: req.user.userId,
         userName: req.user.fullName,
         mealId: req.body.mealId,
+        quantity: req.body.quantity,
         accepted: false
     };
 

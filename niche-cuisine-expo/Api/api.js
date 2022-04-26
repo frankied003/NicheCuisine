@@ -4,6 +4,11 @@ var axios = require('axios');
 
 const auth = getAuth();
 
+const instance = axios.create({
+    // .. where we make our configurations
+    baseURL: 'https://us-central1-nichecuisine-329c6.cloudfunctions.net/api'
+});
+
 const checkAuthToken = async () => {
     try {
         const token = await auth.currentUser?.getIdToken();
@@ -16,41 +21,15 @@ const checkAuthToken = async () => {
     }
 }
 
-const instance = axios.create({
-    // .. where we make our configurations
-    baseURL: 'https://us-central1-nichecuisine-329c6.cloudfunctions.net/api'
-});
-
-export const signUp = async (bodyData) => {
+export const getRequest = async (route, paramObject) => {
+    const authToken = await checkAuthToken();
     let config = {
         headers: {
-            'Content-Type': 'application/json'
-        }
+            Authorization: authToken
+        },
+        params: paramObject
     }
-    let data = JSON.stringify(bodyData)
-    return instance.post(`/signup`, data, config)
-        .then((response) => {
-            return response.data
-        })
-        .catch((err) => {
-            console.log(err);
-            return { error: err }
-        });
-};
-
-export const getMeals = async (paramObject = null) => {
-    const authToken = await checkAuthToken();
-    let config = paramObject ? {
-        headers: {
-            Authorization: authToken,
-            params: paramObject
-        }
-    } : {
-        headers: {
-            Authorization: authToken,
-        }
-    }
-    return instance.get(`/getMeals`, config)
+    return instance.get(route, config)
         .then((response) => {
             return response.data
         })
@@ -60,7 +39,7 @@ export const getMeals = async (paramObject = null) => {
         });
 }
 
-export const postMeal = async (params) => {
+export const postRequest = async (route, params) => {
     const authToken = await checkAuthToken();
     let config = {
         headers: {
@@ -69,7 +48,7 @@ export const postMeal = async (params) => {
         }
     }
     let data = JSON.stringify(params);
-    return instance.post(`/postMeal`, data, config)
+    return instance.post(route, data, config)
         .then((response) => {
             return response.data
         })
