@@ -41,7 +41,7 @@ export default function EntreeScreen(props) {
                         <TextInput
                             placeholder='Title'
                             style={styles.titleInput}
-                            onChangeText={(text) => handleMealNameChange(text)}
+                            onChangeText={(text) => props.handleEntreeNameChange(text)}
                         />
                         <Icon name='camera' type='material-community' color='#000000' />
                     </View>
@@ -50,14 +50,14 @@ export default function EntreeScreen(props) {
                         placeholder='This entree is composed of...'
                         multiline={true}
                         style={styles.largeInput}
-                        onChangeText={(text) => handleMealNameChange(text)}
+                        onChangeText={(text) => props.handleEntreeDescriptionChange(text)}
                     />
                     <Text style={styles.subTitle}>Ingredients</Text>
                     <TextInput
                         placeholder='Wheat, Milk, Eggs, etc...'
                         multiline={true}
                         style={styles.largeInput}
-                        onChangeText={(text) => handleMealNameChange(text)}
+                        onChangeText={(text) => props.handleEntreeIngredientsChange(text)}
                     />
                     <Text style={styles.subTitle}>Allergens</Text>
                     <View style={styles.flexBox}>

@@ -42,7 +42,7 @@ export default function AppetizerScreen(props) {
                         <TextInput
                             placeholder='Title'
                             style={styles.titleInput}
-                            onChangeText={(text) => handleMealNameChange(text)}
+                            onChangeText={(text) => props.handleDesertNameChange(text)}
                         />
                         <Icon name='camera' type='material-community' color='#000000' />
                     </View>
@@ -51,14 +51,14 @@ export default function AppetizerScreen(props) {
                         placeholder='This desert is composed of...'
                         multiline={true}
                         style={styles.largeInput}
-                        onChangeText={(text) => handleMealNameChange(text)}
+                        onChangeText={(text) => props.handleDesertDescriptionChange(text)}
                     />
                     <Text style={styles.subTitle}>Ingredients</Text>
                     <TextInput
                         placeholder='Wheat, Milk, Eggs, etc...'
                         multiline={true}
                         style={styles.largeInput}
-                        onChangeText={(text) => handleMealNameChange(text)}
+                        onChangeText={(text) => props.handleDesertIngredientsChange(text)}
                     />
                     <Text style={styles.subTitle}>Allergens</Text>
                     <View style={styles.flexBox}>
