@@ -14,7 +14,7 @@ export default function MealCard(props) {
                     <Image source={profilePic} style={styles.profileImage} />
                     <Text style={styles.profileNameText}>{props.data.userName}</Text>
                 </View>
-                <Text>{moment.unix(props.data.time).format('MMMM Do, h:mm A')}</Text>
+                <Text>{moment(props.data.time).utc().subtract(4, 'hours').format('MMMM Do, h:mm A')}</Text>
             </View>
             <Text style={styles.mealText}>{props.data.mealName}</Text>
             <Image source={noImage} style={styles.mainImage} />
