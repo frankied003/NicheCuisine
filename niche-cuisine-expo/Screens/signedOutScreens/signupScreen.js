@@ -56,7 +56,7 @@ export default function SignUpScreen({ navigation }) {
 
     const onCreate = async () => {
         setsubmitting(true);
-        const res = await postRequest('/signp', {
+        const res = await postRequest('/signup', {
             email: email,
             password: password,
             confirmPassword: confirmPassword,
